@@ -1,8 +1,9 @@
 # aptly-bash
-#About
+
+# About
 * This is a bash script developed for Linux and Windows platforms for batch processing of VST effect plugins
 * Developed for EECS 4080 - Computer Science Project at York University, under supervision of [Dr. Vassilios Tzerpos](http://bil.eecs.yorku.ca/)
-#Getting Started
+# Getting Started
 ## MrsWatson
 * Detailed information on MrsWatson can be found [here](http://teragonaudio.com/MrsWatson.html)
 ## Linux
@@ -20,7 +21,7 @@ choco install mrswatson
 ``
 * 32 bit plugins can be installed without additional configuration
 
-#Usage
+# Usage
 * Usage is identical in Linux and Windows platforms. In both operating systems, the script needs to be run as root
 * In Linux, run with ``sudo``
 * In Windows, run your terminal as administrator
@@ -28,22 +29,22 @@ choco install mrswatson
 * The full help menu with examples can be displayed using ``-h full``
 * Run with ``-v`` or ``--verbose`` in order to display the MrsWatson output for each file
 
-##Creating preset files using Audacity
+## Creating preset files using Audacity
 * For detailed information, follow [this link](https://wiki.audacityteam.org/wiki/VST_Plug-ins)
-###Adding VST plugins to Audacity:
-####Windows
+### Adding VST plugins to Audacity:
+#### Windows
 * Audacity can only process 32-bit plugins in Windows, regardless of system architecture
 * Place your plugins inside the plugins folder of Audacity installation directory
-####Linux
+#### Linux
 * 32-bit linux systems can only process 32-bit plugins, 64-bit linux systems can only process 64-bit plugins
 * Install Audacity 2.3.3 using ``apt-get install audacity``
 * Place your plugins inside ``/usr/lib/vst`` or ``usr/local/lib/vst``
-####Exporting preset files:
+#### Exporting preset files:
 * Enable plugins through Effect -> Add / Remove Plug-ins... menu
 * Apply the plugin to a sound file using the Effect menu to bring up the plugin GUI
 * Use the options -> export to export the parameters as a preset .fxp file
 
 
-##Shortcomings
+## Shortcomings
 * Currently, recursive processing of all files in a given directory fails on Windows, only when outputting to a specified directory
 * The bug occurs when attempting to maintain the directory structure under specified output directory
