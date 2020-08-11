@@ -15,11 +15,11 @@ mrswatson --version
 
 ## Windows
 * ensure chocolately package manager is installed. Instructions can be found [here](https://chocolatey.org/install) 
-* afterwards, run the following command to install MrsWatson: 
+* afterwards, run the following command to install MrsWatson on powershell: 
 ``
 choco install mrswatson
 ``
-* 32 bit plugins can be installed without additional configuration
+* 32-bit plugins can be processed without additional configuration
 
 # Usage
 * Usage is identical in Linux and Windows platforms. In both operating systems, the script needs to be run as root
