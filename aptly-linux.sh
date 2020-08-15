@@ -260,7 +260,7 @@ run_command_as_non_root()
 
   if [ $VERBOSE -gt 0 ]
   then
-    printf "\nMrsWatson Command: %s\n\n" "${1}"
+    printf "\nMrsWatson Command: %s -p %s -i %s -o %s\n\n" "${1}" "${2}" "${3}" "${4}"
     sudo -u "${SUDO_USER}" "${1}" -p "${2}" -i "${3}" -o "${4}"
   else
     #runs command without output (directs output to null) and checks if it succeeded

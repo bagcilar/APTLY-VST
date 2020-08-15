@@ -254,7 +254,7 @@ run_command_as_non_root()
 
   if [ $VERBOSE -gt 0 ]
   then
-    printf "\nMrsWatson Command: %s\n\n" "${1}"
+    printf "\nMrsWatson Command: %s -p %s -i %s -o %s\n\n" "${1}" "${2}" "${3}" "${4}"
     "${1}" -p "${2}" -i "${3}" -o "${4}"
   else
     #runs command without output (directs output to null) and checks if it succeeded
@@ -303,7 +303,7 @@ construct_input_file_command()
     if [[ -n $OUTPUT_DIR ]] &&  [[ -z $OUTPUT_FILE_DIR ]]
     then
       #removes slash from end of OUTPUT_DIR if there is one
-      OUTPUT_DIR="$(realpath "${OUTPUT_DIR}")"
+      #OUTPUT_DIR="$(realpath "${OUTPUT_DIR}")"
       output_file_path="$OUTPUT_DIR${output_filename}"
       run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
       printf "\n"
