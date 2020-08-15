@@ -43,8 +43,3 @@ choco install mrswatson
 * Enable plugins through Effect -> Add / Remove Plug-ins... menu
 * Apply the plugin to a sound file using the Effect menu to bring up the plugin GUI
 * Use the options -> export to export the parameters as a preset .fxp file
-
-
-## Shortcomings
-* Currently, recursive processing of all files in a given directory fails on Windows, only when outputting to a specified directory
-* The bug occurs when attempting to maintain the directory structure under specified output directory

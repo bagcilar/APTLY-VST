@@ -368,7 +368,7 @@ construct_input_dir_command()
           #gets absolute paths for the new path calculation
           abs_input_path=$(realpath "${INPUT_DIR}")
           current_file_path=$(realpath "${file_path}")
-          abs_output_path=$(realpath "${OUTPUT_DIR}")
+          abs_output_path=$(realpath --relative-to="./" "${OUTPUT_DIR}")
 
           #contains the difference of above, removes original filename from path
           naked_path=${current_file_path#"$abs_input_path"}
