@@ -272,7 +272,7 @@ run_command_as_non_root()
     NUM_PROCESSED_FILES=$(( NUM_PROCESSED_FILES + 1 ))
     perc_completed=$(( NUM_PROCESSED_FILES * 100 / NUM_FILES ))
 
-    printf "Processing files: %%%d completed\r" $perc_completed
+    printf "Processing files: %d%% completed\r" $perc_completed
     if [ $perc_completed == 100 ]
     then
       perc_successful=$(( NUM_COMPLETED_FILES * 100 / NUM_FILES ))
