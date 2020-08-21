@@ -1,0 +1,80 @@
+Usage: ./aptly-windows.sh <options>
+
+options:
+
+-file     -f    ......................  use to specify the path for a single file
+
+    - If no output option is given, processed file will be saved to the same directory
+    - One of -f or -d is mandatory
+
+-dir      -d    ......................  use to specify a directory. All subfolders within the directory will also be searched for files
+
+    - If no output option is given, processed files will be saved to their respective directories
+    - One of -f or -d is mandatory
+
+-rec      -r    ......................  use to search a directory and its subdirectories recursively for a file format
+
+    - If the option is not present, only the top level directory will be searched
+
+    - If this option is present, so must a -d option
+    - This option is not mandatory
+
+-ext      -x    ......................  specify an extension of files to search for in a given directory
+
+    - If this option is present, so must a -d option
+    - This option is not mandatory
+
+-output   -o    ......................  use to specify an output directory
+
+    - If used along with -d option, all files within the specified dir will be saved to the specified directory
+    - If used along with -f option, chosen file will be processed and saved to the specified directory
+    - This option is not mandatory
+
+-outputF  -of  .......................  use to specify a complete path for output, including filename
+
+    - Has to be used with the -f option, and correct format should be specified for the output file
+    - This option is not mandatory
+
+-verbose  -v  .......................  use to get verbose logging
+
+    - Does not have an argument. Displays processing of each audio file
+    - This option is not mandatory
+
+-plugin   -p    ......................  use to specify the path or paths of desired plugins to be applied
+
+    - If you would like to attach multiple plugins, use a single -p or --plugin option keyword and enter desired plugins separated by a +
+    - If you would like to attach a preset .fxp file, enter a plugin name then the path of the .fxp file, separated by a comma
+    - If no fxp file specified, default values of the plugin will be used
+    - This option is mandatory
+
+-pluginB  -pb  ......................  use to specify a whether to use a 32bit or 64 bit plugin
+    - This option is mandatory
+
+
+Examples:
+
+
+  - Applies 32 bit effect.so plugin to piano.wav, outputs to /home/user/outputs:
+
+  ./aptly-windows.sh -f piano.wav -o /home/user/outputs -p effect.so -pb 32
+
+
+  - Applies 64 bit effect.so plugin to piano.wav, outputs to piano_output.wav in /home/user/outputs:
+
+  ./aptly-windows.sh -f piano.wav -o /home/user/outputs/piano_output.wav -p effect.so -pb 64
+
+
+  - Applies 64 bit effect.so plugin to all .wav files in top directory /home/user/Desktop, outputs all to /home/user/outputs:
+
+  ./aptly-windows.sh -d /home/user/Desktop -x .wav -o /home/user/outputs -p effect.so -pb 64
+
+
+  - Applies 64 bit effect.so plugin to piano.wav, using the effect.fxp preset file. Output is saved to input directory:
+
+  ./aptly-windows.sh -f /home/user/sounds/piano.wav -p /home/user/plugins/effect.so,/home/user/plugins/effect.fxp -pb 64
+
+
+  - Applies 64 bit plugins effect1.so with effect1.fxp preset, effect2.so and effect3.so with default parameters
+  to all files recursively in specified directory and its subdirectories, outputs to /home/user/outputs:
+
+  ./aptly-windows.sh -d /home/user/Desktop -x .wav -r -o /home/user/outputs -p effect1.so,preset1.fxp effect2.so effect3.so -pb 64
