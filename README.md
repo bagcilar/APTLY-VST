@@ -22,8 +22,7 @@ choco install mrswatson
 * 32-bit plugins can be processed without additional configuration
 
 # Usage
-* Usage is identical in Linux and Windows platforms. In both operating systems, the script needs to be run as root
-* In Linux, run with ``sudo``
+* Usage is identical in Linux and Windows platforms
 * In Windows, run your terminal as administrator
 * Help menu can be displayed using the ``-h`` option
 * The full help menu with examples can be displayed using ``-h full``

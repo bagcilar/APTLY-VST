@@ -237,12 +237,10 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-# executes MrsWatson command as non-root user
-run_command_as_non_root()
+# executes MrsWatson command
+run_mrswatson_command()
 {
 
-  # the script is run as the root user so that it can create the necessary directories/files
-  # the command is run as the non-root user, so that the output files have permissions
   # the plugin directory, input directory, and output directory are passed as parameters,
   # as they individually need to be quoted in the MrsWatson command in order to avoid whitespace issues
   # parameters:
@@ -306,7 +304,7 @@ construct_input_file_command()
       #removes slash from end of OUTPUT_DIR if there is one
       #OUTPUT_DIR="$(realpath "${OUTPUT_DIR}")"
       output_file_path="$OUTPUT_DIR${output_filename}"
-      run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
+      run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
       printf "\n"
       exit
     # checks if no -o was provided
@@ -315,13 +313,13 @@ construct_input_file_command()
       input_file_path="$(dirname "${INPUT_FILE}")"
       output_file_path=${input_file_path}${output_filename}
       mrs_watson_command+=" -o $output_file_path"
-      run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
+      run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
       printf "\n"
       exit
     # checks if output file was provided
     elif [[ -n $OUTPUT_FILE_DIR ]] &&  [[ -z $OUTPUT_DIR ]]
     then
-      run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$OUTPUT_FILE_DIR"
+      run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$OUTPUT_FILE_DIR"
       printf "\n"
       exit
     fi
@@ -380,18 +378,17 @@ construct_input_dir_command()
           then
             mkdir -p "$abs_output_path$naked_path"
           fi
-          chmod 777 "$abs_output_path$naked_path"
 
           #adds new filename
           naked_path+=$output_filename
           #concatenates requested output path with original dir structure
           output_file_path="$abs_output_path$naked_path"
-          run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
+          run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
         elif [[ -z $OUTPUT_DIR ]] && [[ -z $OUTPUT_FILE_DIR ]]
         then
           input_file_path="$(dirname "${file_path}")"
           output_file_path=${input_file_path}${output_filename}
-          run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
+          run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
         fi
       done
     printf "\n"
@@ -400,7 +397,7 @@ construct_input_dir_command()
 }
 
 
-# constructs and executes the MrsWatson command as non root
+# constructs MrsWatson command
 construct_mrswatson_command()
 {
 

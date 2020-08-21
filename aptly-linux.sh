@@ -1,13 +1,6 @@
 #!/bin/bash
 
-### exit if not run as root
-if [ "$EUID" -ne 0 ]
-then
-  printf "\nYou must run %s as root\n\n" "${0}"
-  exit
-fi
-
-#### colour specifications./te
+#### colour specifications
 RED=$'\033[0;31m'
 GRN=$'\033[0;32m'
 BL=$'\033[0;33m'
@@ -45,7 +38,7 @@ show_help()
   printf "\n%s--pluginB  -pb%s  <argument> : 32 or 64" "${BL}" "${NC}"
   printf "\n%s--help     -h%s   <argument> : 'full'" "${BL}" "${NC}"
   printf "\n%s--rec      -r%s"   "${BL}" "${NC}"
-  printf "\n%s--verbose      -v%s"   "${BL}" "${NC}"
+  printf "\n%s--verbose  -v%s"   "${BL}" "${NC}"
   printf "\nAll options require mandatory arguments except for -h, -r, and -v\n"
   printf "\n\n"
   exit
@@ -244,11 +237,10 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-# executes MrsWatson command as non-root user
-run_command_as_non_root()
+# executes MrsWatson command
+run_mrswatson_command()
 {
-  # the script is run as the root user so that it can create the necessary directories/files
-  # the command is run as the non-root user, so that the output files have permissions
+
   # the plugin directory, input directory, and output directory are passed as parameters,
   # as they individually need to be quoted in the MrsWatson command in order to avoid whitespace issues
   # parameters:
@@ -261,10 +253,10 @@ run_command_as_non_root()
   if [ $VERBOSE -gt 0 ]
   then
     printf "\nMrsWatson Command: %s -p %s -i %s -o %s\n\n" "${1}" "${2}" "${3}" "${4}"
-    sudo -u "${SUDO_USER}" "${1}" -p "${2}" -i "${3}" -o "${4}"
+    "${1}" -p "${2}" -i "${3}" -o "${4}"
   else
     #runs command without output (directs output to null) and checks if it succeeded
-    sudo -u "${SUDO_USER}" "${1}" -p "${2}" -i "${3}" -o "${4}" -q 2>/dev/null
+    "${1}" -p "${2}" -i "${3}" -o "${4}" -q 2>/dev/null
     if [ $? -eq 0 ]; then
         #printf "${GRN}\nSuccessfully wrote file %s\n${RED}" "$2"
         NUM_COMPLETED_FILES=$(( NUM_COMPLETED_FILES + 1 ))
@@ -311,7 +303,7 @@ construct_input_file_command()
       #removes slash from end of OUTPUT_DIR if there is one
       OUTPUT_DIR="$(realpath "${OUTPUT_DIR}")"
       output_file_path="$OUTPUT_DIR${output_filename}"
-      run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
+      run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
       printf "\n"
       exit
     # checks if no -o was provided
@@ -320,13 +312,13 @@ construct_input_file_command()
       input_file_path="$(dirname "${INPUT_FILE}")"
       output_file_path=${input_file_path}${output_filename}
       mrs_watson_command+=" -o $output_file_path"
-      run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
+      run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
       printf "\n"
       exit
     # checks if output file was provided
     elif [[ -n $OUTPUT_FILE_DIR ]] &&  [[ -z $OUTPUT_DIR ]]
     then
-      run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$OUTPUT_FILE_DIR"
+      run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$OUTPUT_FILE_DIR"
       printf "\n"
       exit
     fi
@@ -385,18 +377,17 @@ construct_input_dir_command()
           then
             mkdir -p "$abs_output_path$naked_path"
           fi
-          chmod 777 "$abs_output_path$naked_path"
 
           #adds new filename
           naked_path+=$output_filename
           #concatenates requested output path with original dir structure
           output_file_path="$abs_output_path$naked_path"
-          run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
+          run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
         elif [[ -z $OUTPUT_DIR ]] && [[ -z $OUTPUT_FILE_DIR ]]
         then
           input_file_path="$(dirname "${file_path}")"
           output_file_path=${input_file_path}${output_filename}
-          run_command_as_non_root "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
+          run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$file_path" "$output_file_path"
         fi
       done
     printf "\n"
@@ -405,7 +396,7 @@ construct_input_dir_command()
 }
 
 
-# constructs and executes the MrsWatson command as non root
+# constructs the MrsWatson command
 construct_mrswatson_command()
 {
 
