@@ -23,7 +23,6 @@ choco install mrswatson
 
 # Usage
 * Usage is identical in Linux and Windows platforms
-* In Windows, run your terminal as administrator
 * Help menu can be displayed using the ``-h`` option
 * The full help menu with examples can be displayed using ``-h full``
 * Run with ``-v`` or ``--verbose`` in order to display the MrsWatson output for each file
