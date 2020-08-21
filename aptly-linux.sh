@@ -300,8 +300,12 @@ construct_input_file_command()
     # checks if an output dir was provided
     if [[ -n $OUTPUT_DIR ]] &&  [[ -z $OUTPUT_FILE_DIR ]]
     then
-      #removes slash from end of OUTPUT_DIR if there is one
       OUTPUT_DIR="$(realpath "${OUTPUT_DIR}")"
+      #creates output dir if it doesn't exist
+      if [ ! -d "$OUTPUT_DIR" ]
+      then
+        mkdir "$OUTPUT_DIR"
+      fi
       output_file_path="$OUTPUT_DIR${output_filename}"
       run_mrswatson_command "$mrs_watson_base_command" "$PLUGIN_DIR" "$INPUT_FILE" "$output_file_path"
       printf "\n"
