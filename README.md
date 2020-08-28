@@ -32,12 +32,14 @@ choco install mrswatson
 ### Adding VST plugins to Audacity:
 #### Windows
 * Audacity can only process 32-bit plugins in Windows, regardless of system architecture
-* Place your plugins inside the plugins folder of Audacity installation directory
+* Place your plugins inside the plugins folder of Audacity installation directory. Default directory is ``C:\Program Files (x86)\Audacity\Plug-Ins``
 #### Linux
 * 32-bit linux systems can only process 32-bit plugins, 64-bit linux systems can only process 64-bit plugins
 * Install Audacity 2.3.3 using ``apt-get install audacity``
 * Place your plugins inside ``/usr/lib/vst`` or ``usr/local/lib/vst``
-#### Exporting preset files:
+### Exporting preset files:
+* Steps are the same in Linux and Windows
 * Enable plugins through Effect -> Add / Remove Plug-ins... menu
 * Apply the plugin to a sound file using the Effect menu to bring up the plugin GUI
+* Use the ... options -> export to export the parameters as a .fxp file
 * Use the options -> export to export the parameters as a preset .fxp file
